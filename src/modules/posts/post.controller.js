@@ -1,11 +1,11 @@
 import Post from './post.model';
 import HTTPStatus from 'http-status';
-
+import User from '../users/users.model';
 
 export async function createpost(req, res){
     console.log(req.body);
     try {
-        const post = await Post.create(req.body);
+        const post = await Post.createpost(req.body, req.user._id);
         res.status(HTTPStatus.CREATED).json(post);
     } catch (e) {
         res.status(HTTPStatus.BAD_REQUEST).json(e);
@@ -30,7 +30,7 @@ export async function listpost(req, res){
     const skip =  parseInt(req.query.skip, 0) || 0;
     const q = req.query.q || "" ;
     try {
-        const postlist = await Post.postlist(limit, skip, q);
+        const postlist = await Post.postlist(limit, skip, q).populate('user', '_id email');
         return res.status(HTTPStatus.OK).json(postlist);
     } catch (e) {
         res.status(HTTPStatus.BAD_REQUEST).json(e);

@@ -8,7 +8,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "dev:build": "yarn clean && webpack -w",
-    "dev": "cross-env NODE_ENV=development nodemon dist/index.bundle.js"
+    "dev": "cross-env NODE_ENV=development nodemon dist/index.bundle.js",
+    "prettier": "prettier --single-quote --print-width 80 --trailing-comma all --write src/**/*.js",
+    "start": "yarn prettier && yarn dev"    
   },
   "dependencies": {
     "bcrypt-nodejs": "^0.0.3",

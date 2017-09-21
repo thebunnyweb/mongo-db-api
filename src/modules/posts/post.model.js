@@ -30,7 +30,10 @@ const postSchema = new Schema({
         trim: true,
         lowercase: true
     },
-    
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
 }, {timestamps: true});
 
 
@@ -59,12 +62,19 @@ postSchema.methods = {
             text: this.text,
             author: this.author,
             genre: this.genre,
-            slug: this.slug
+            slug: this.slug,
+            user: this.user
         }
     },
 }
 
 postSchema.statics = {
+    createpost(args, user){
+        return this.create({
+            ...args,
+            user
+        })
+    },
     postlist(limit, skip, q){
         if(q==""){
             return this.find()
